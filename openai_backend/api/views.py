@@ -38,7 +38,7 @@ def gemini_chat(request):
         if not user_message:
             return JsonResponse({"error": "No message provided"}, status=400)
 
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         # For chat history, you would typically pass a list of previous messages.
         # Example: history = [{"role": "user", "parts": ["Hello"]}, {"role": "model", "parts": ["Hi there!"]}]
         # For simplicity, this example starts a new chat session on each request.
