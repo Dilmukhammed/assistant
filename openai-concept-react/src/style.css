@@ -20,7 +20,7 @@ body {
     flex-direction: column;
     height: 100vh;
     box-sizing: border-box;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .top-nav {
@@ -49,6 +49,20 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    height: 100vh;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) #1A1A1D;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color); /* Используем ваш акцентный цвет */
+  border-radius: 10px; /* Скругляем углы */
+  border: 2px solid #1A1A1D; /* Создаем небольшой отступ от краев */
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #1A1A1D; /* Цвет фона из вашего градиента */
 }
 
 .center-container {
@@ -138,22 +152,22 @@ body {
 
 /* ChatView Styles */
 .chat-view {
-    width: 100%; /* Ensures it spans the 700px max-width for internal content alignment */
-    max-width: 700px; /* For horizontal centering by parent's align-items: center */
+    width: 100%;
+    max-width: 700px;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Gap between messages */
+    gap: 20px;
     color: var(--text-color);
-    padding: 20px;
+    padding: 20px; /* Оставляем общий внутренний отступ */
+    padding-bottom: 10vh;
+    /* flex: 1; Это замена для flex-grow и более надежный вариант */
     box-sizing: border-box;
-    overflow-y: auto; /* For scrolling messages */
-
-    flex-grow: 1; /* Key for taking available vertical space */
-    margin-bottom: 15px; /* Space above the SearchBar */
+    /* overflow-y: auto; Это позволит контенту скроллиться внутри блока */
+    /* Убедитесь, что свойства height и padding-bottom удалены */
+}
     /* Optional: add back a subtle border/background if desired, but distinct from SearchBar now */
     /* border: 1px solid var(--border-color); */
     /* border-radius: 10px; */ /* Can have its own radius */
-}
 
 .chat-message {
   padding: 10px 15px;
@@ -174,6 +188,7 @@ body {
   color: var(--text-color);
   align-self: flex-start;
   border-bottom-left-radius: 5px; /* Common chat bubble style */
+  text-align: left;
 }
 
 .chat-message p {
@@ -202,32 +217,8 @@ body {
     /* justify-content: space-between; /* This would push ChatView to top, SearchBar to bottom if ChatView had no flex-grow.
                                      We will use flex-grow on ChatView instead. */
     gap: 0; /* Override default gap, manage spacing with padding/margins on children if needed */
-}
 
-/* Reverted: SearchBar adjustments for chat mode */
-/*
-.center-container.chat-layout .search-bar {
-    width: 100%;
-    max-width: none;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    border-top: 1px solid var(--border-color);
-    padding: 15px 20px;
-    background-color: #161618;
-    box-sizing: border-box;
 }
-*/
-
-/*
-.center-container.chat-layout .search-bar:focus-within {
-    border-top-color: var(--accent-color);
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-}
-*/
 
 /* Input field within the search bar in chat mode - already covered by general .search-bar input if no specific changes needed */
 /*
@@ -236,9 +227,15 @@ body {
 }
 */
 
-/* Spacing for SearchBar at the bottom in chat mode */
-.center-container.chat-layout > .search-bar {
-    margin-bottom: 20px;
-    /* This ensures some space from the absolute bottom of the viewport,
-       matching the body's top padding for symmetry if Header is hidden. */
+/* Styles for the search bar when in chat layout for fixed positioning */
+.center-container.chat-layout .search-bar {
+    position: fixed; /* Фиксируем относительно окна браузера */
+    bottom: 20px;    /* Отступ от нижнего края окна */
+    left: 50%;       /* Центрируем */
+    transform: translateX(-50%);
+    z-index: 100;    /* Устанавливаем высокий z-index, чтобы он был поверх всего */
+    
+    /* Ширину и max-width оставляем как было */
+    width: 700px;
+    max-width: 90vw;
 }
