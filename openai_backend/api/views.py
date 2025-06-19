@@ -1,3 +1,10 @@
+import os
+import google.generativeai as genai
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from dotenv import load_dotenv
+
 from rest_framework import viewsets
 from .models import Idea, Conversation # Add Conversation import
 from .serializers import IdeaSerializer, ConversationSerializer # Add ConversationSerializer import
@@ -10,38 +17,36 @@ class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+# Load environment variables
+load_dotenv()
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+if gemini_api_key:
+    genai.configure(api_key=gemini_api_key)
+else:
+    # This else block is more for debugging during development.
+    # In production, you'd likely want to handle this more gracefully,
+    # perhaps by raising an error or logging.
+    print("GEMINI_API_KEY not found. Please set it in your .env file.")
 
-class GeminiQueryView(APIView):
-    """
-    Placeholder view for Gemini API interaction.
-    Expects a 'query' in the request data.
-    """
-    def post(self, request, *args, **kwargs):
-        query = request.data.get('query')
-        if not query:
-            return Response({"error": "Query parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+def gemini_chat(request):
+    if not gemini_api_key:
+        return JsonResponse({"error": "GEMINI_API_KEY not configured"}, status=500)
 
-        # In a real scenario, here you would:
-        # 1. Initialize the Gemini API client/SDK.
-        # 2. Send the query to the Gemini API.
-        # 3. Process the response.
-        # 4. Optionally, save the conversation turn using ConversationSerializer/model.
+    try:
+        user_message = request.data.get('message')
+        if not user_message:
+            return JsonResponse({"error": "No message provided"}, status=400)
 
-        mock_response_text = f"This is a mocked Gemini response to your query: '{query}'"
+        model = genai.GenerativeModel('gemini-pro')
+        # For chat history, you would typically pass a list of previous messages.
+        # Example: history = [{"role": "user", "parts": ["Hello"]}, {"role": "model", "parts": ["Hi there!"]}]
+        # For simplicity, this example starts a new chat session on each request.
+        # You'll need to implement history management if required.
 
-        # Example of saving the conversation (optional for this placeholder)
-        # try:
-        #     Conversation.objects.create(user_input=query, gemini_response=mock_response_text)
-        # except Exception as e:
-        #     # Handle potential save errors, log them, etc.
-        #     print(f"Error saving conversation: {e}")
-        #     pass # Continue even if saving fails for the placeholder
+        chat_session = model.start_chat(history=[]) # Start with empty history for now
+        response = chat_session.send_message(user_message)
 
-        return Response({
-            "user_query": query,
-            "gemini_response": mock_response_text,
-            "message": "This is a placeholder response. Gemini API not actually called."
-        }, status=status.HTTP_200_OK)
+        return JsonResponse({"reply": response.text})
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

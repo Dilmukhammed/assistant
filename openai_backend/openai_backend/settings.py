@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 """
 Django settings for openai_backend project.
 
@@ -122,3 +124,14 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Load environment variables from .env
+load_dotenv()
+
+# Configure Gemini API
+import google.generativeai as genai
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+else:
+    print("GEMINI_API_KEY not found in .env file.")
