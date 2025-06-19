@@ -50,19 +50,24 @@ function MainContent() {
   };
 
   return (
-    <main className="main-content">
-      <div className="center-container">
+    <main className={`main-content ${uiMode === 'chat' ? 'chat-mode-active' : ''}`}>
+      <div className={`center-container ${uiMode === 'chat' ? 'chat-layout' : ''}`}>
         {uiMode === 'search' && (
           <>
             <Logo />
             <FilterPills />
           </>
         )}
+
+        {/* ChatView is rendered above SearchBar in chat mode */}
+        {uiMode === 'chat' && (
+          <ChatView messages={chatMessages} />
+        )}
+
         <SearchBar
           handleSearchSubmit={handleSearchSubmit}
           placeholder={uiMode === 'search' ? "What is the benefit of using an AI-powered design expert?" : "Type your message..."}
         />
-        {uiMode === 'chat' && <ChatView messages={chatMessages} />}
       </div>
     </main>
   );

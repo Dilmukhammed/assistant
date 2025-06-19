@@ -138,9 +138,13 @@ body {
 
 /* ChatView Styles */
 .chat-view {
+  flex-grow: 1; /* Allows ChatView to take available space */
+  overflow-y: auto; /* Enables vertical scrolling for messages */
   width: 100%;
-  max-width: 700px; /* Same as search-bar for consistency */
-  margin-top: 20px;
+  max-width: 100%; /* Allow full width in chat mode */
+  /* margin-top: 20px; /* Remove or adjust if padding handles spacing */
+  padding: 20px; /* Add some padding inside the scrollable area */
+  box-sizing: border-box; /* Include padding in width/height calculation */
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -171,3 +175,53 @@ body {
 .chat-message p {
   margin: 0;
 }
+
+/* Chat mode layout adjustments */
+.main-content.chat-mode-active {
+    padding: 0; /* Remove body padding effect if chat should be edge-to-edge */
+    /* Ensure .main-content itself is full height if #root/.App don't enforce it for children */
+    /* This might require .App and #root to also have height: 100% and display:flex; flex-direction:column; */
+    /* Which was handled by root-app-layout.css */
+}
+
+.center-container.chat-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes SearchBar to bottom */
+    height: 100%; /* Crucial for ChatView to grow within */
+    width: 100%; /* Take full width */
+    max-width: none; /* Override previous max-width from search mode */
+    padding: 0; /* Remove its own padding from search mode */
+    gap: 0; /* Remove previous gap from search mode */
+    /* animation: none; /* Optionally disable fadeIn for chat view if it was on .center-container */
+}
+
+/* SearchBar adjustments for chat mode */
+.center-container.chat-layout .search-bar {
+    width: 100%;
+    max-width: none;
+    border-radius: 0; /* Square off corners */
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: 1px solid var(--border-color); /* Keep a top separator */
+    padding: 15px 20px; /* Adjusted padding for chat input */
+    background-color: #161618; /* Keep original background */
+    box-sizing: border-box;
+}
+
+.center-container.chat-layout .search-bar:focus-within {
+    /* Keep focus style, but only on top border if others removed */
+    border-top-color: var(--accent-color);
+    border-left-color: transparent; /* Ensure no left border color on focus */
+    border-right-color: transparent; /* Ensure no right border color on focus */
+    border-bottom-color: transparent; /* Ensure no bottom border color on focus */
+    /* The main border-color from .search-bar:focus-within might still apply to border-top if not overridden here explicitly */
+}
+
+/* Input field within the search bar in chat mode - already covered by general .search-bar input if no specific changes needed */
+/*
+.center-container.chat-layout .search-bar input {
+    font-size: 16px; // Ensure font size is appropriate
+}
+*/
