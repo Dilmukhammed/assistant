@@ -20,10 +20,10 @@ function MainContent() {
     }
 
     try {
-      const response = await fetch('/api/gemini-query/', {
+      const response = await fetch('/api/chat/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: query }),
+        body: JSON.stringify({ message: query }),
       });
 
       if (!response.ok) {
@@ -39,7 +39,7 @@ function MainContent() {
       }
       const data = await response.json();
 
-      const aiMessage = { type: 'ai', text: data.gemini_response || "No response from AI." };
+      const aiMessage = { type: 'ai', text: data.reply || "No response from AI." };
       setChatMessages(prevMessages => [...prevMessages, aiMessage]);
 
     } catch (error) {
