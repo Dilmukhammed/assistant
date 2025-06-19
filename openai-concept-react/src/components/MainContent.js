@@ -50,7 +50,7 @@ function MainContent() {
   };
 
   return (
-    <main className={`main-content ${uiMode === 'chat' ? 'chat-mode-active' : ''}`}>
+    <main className="main-content">
       <div className={`center-container ${uiMode === 'chat' ? 'chat-layout' : ''}`}>
         {uiMode === 'search' && (
           <>
