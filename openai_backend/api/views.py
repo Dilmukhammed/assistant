@@ -1,4 +1,5 @@
 import os
+import datetime # Make sure datetime is imported
 import google.generativeai as genai
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
@@ -77,3 +78,46 @@ def gemini_chat(request):
         # import traceback
         # print(traceback.format_exc()) # Uncomment for detailed server-side logs
         return JsonResponse({"error": str(e)}, status=500)
+
+@api_view(['GET']) # This endpoint can be a GET request as it's just fetching a token
+def get_live_api_token_view(request):
+    if not gemini_api_key: # Check if API key is configured
+        return JsonResponse({"error": "GEMINI_API_KEY not configured"}, status=500)
+
+    try:
+        # Initialize client with v1alpha for auth_tokens
+        # genai.configure(api_key=gemini_api_key) should have been called already at module level
+        client = genai.Client(
+            http_options={'api_version': 'v1alpha'}
+            # The main API key is used by the client implicitly due to genai.configure()
+        )
+
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+
+        token_config = {
+            'uses': 1,
+            'expire_time': now + datetime.timedelta(minutes=30),
+            'new_session_expire_time': now + datetime.timedelta(minutes=1),
+            'http_options': {'api_version': 'v1alpha'} # Added as per user example for the create call
+        }
+
+        # Optional: Add live_connect_constraints if needed for more security
+        # token_config['live_connect_constraints'] = {
+        #     'model': 'gemini-1.5-flash-latest', # Or your specific live model
+        #     'config': {
+        #         'session_resumption':{}, # Enable session resumption
+        #     }
+        # }
+
+        ephemeral_token = client.auth_tokens.create(config=token_config)
+
+        if not ephemeral_token or not ephemeral_token.name:
+            return JsonResponse({"error": "Failed to create ephemeral token"}, status=500)
+
+        return JsonResponse({"ephemeral_token": ephemeral_token.name})
+
+    except Exception as e:
+        # Consider logging the error for server-side debugging
+        # import traceback
+        # print(traceback.format_exc()) # Uncomment for detailed server-side logs
+        return JsonResponse({"error": f"Error creating ephemeral token: {str(e)}"}, status=500)

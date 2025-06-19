@@ -110,3 +110,109 @@
 .search-bar-container .status-message p {
   margin: 0;
 }
+
+/* Styles for LiveAssistantButton component */
+.live-assistant-container {
+  position: fixed; /* Example: make it a floating button container */
+  bottom: 20px;
+  right: 20px;
+  padding: 15px; /* Increased padding */
+  background-color: #ffffff; /* White background */
+  border: 1px solid #ddd; /* Lighter border */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Softer shadow */
+  z-index: 1000; /* Ensure it's above other content */
+  width: 280px; /* Slightly wider */
+  max-width: 90%; /* Responsive for smaller screens */
+}
+
+.live-assistant-toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 15px; /* Slightly larger padding */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold; /* Bolder text */
+  width: 100%;
+  margin-bottom: 12px; /* Increased margin */
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Smooth transition */
+  text-align: center;
+}
+
+.live-assistant-toggle-button:hover {
+  background-color: #0056b3;
+}
+
+.live-assistant-toggle-button.active {
+  background-color: #28a745; /* Green when active */
+}
+.live-assistant-toggle-button.active:hover {
+  background-color: #1e7e34;
+}
+
+.live-assistant-toggle-button.listening {
+  background-color: #dc3545; /* Red when listening (like recording) */
+}
+.live-assistant-toggle-button.listening:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+.live-assistant-toggle-button.error-state {
+  background-color: #ffc107; /* Yellow for error state on button */
+  color: #212529; /* Darker text for yellow background */
+}
+.live-assistant-toggle-button.error-state:hover {
+  background-color: #e0a800;
+}
+
+.live-assistant-toggle-button:disabled {
+  background-color: #6c757d; /* Grey when disabled */
+  cursor: not-allowed;
+  color: #ccc;
+}
+
+
+.live-status-indicators {
+  font-size: 0.9em;
+  margin-bottom: 10px; /* Increased margin */
+  min-height: 18px; /* Adjusted min-height */
+  text-align: center; /* Center status text */
+}
+
+.live-status-indicators .status-text,
+.live-status-indicators .error-message,
+.live-status-indicators .speaking-indicator {
+    display: block;
+    margin-bottom: 5px; /* Increased margin */
+}
+
+.live-status-indicators .error-message {
+  color: #dc3545; /* Bootstrap danger red */
+  font-weight: bold;
+}
+
+.live-status-indicators .speaking-indicator {
+  color: #007bff; /* Bootstrap primary blue */
+  font-style: italic;
+}
+
+.live-transcript-area {
+  background-color: #f8f9fa; /* Lighter grey for transcript */
+  border: 1px solid #e9ecef; /* Even lighter border */
+  padding: 10px;
+  margin-top: 10px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 0.875em; /* Slightly adjusted font size */
+  white-space: pre-wrap;
+  border-radius: 4px;
+  line-height: 1.5; /* Improved readability */
+}
+
+.live-transcript-area strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #495057; /* Darker grey for "Transcript:" label */
+}

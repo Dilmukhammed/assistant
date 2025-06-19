@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import React, { useState } from 'react';
 import Logo from './Logo';
 import FilterPills from './FilterPills';
 import SearchBar from './SearchBar';
 import ChatView from './ChatView'; // Import ChatView
+import LiveAssistantButton from './LiveAssistantButton'; // Import the new component
 
 function MainContent() {
   const [uiMode, setUiMode] = useState('search'); // 'search' or 'chat'
@@ -78,6 +80,7 @@ function MainContent() {
           placeholder={uiMode === 'search' ? "What is the benefit of using an AI-powered design expert?" : "Type your message..."}
         />
       </div>
+      <LiveAssistantButton /> {/* Add the LiveAssistantButton here */}
     </main>
   );
 }
