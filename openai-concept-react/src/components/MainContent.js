@@ -10,20 +10,27 @@ function MainContent() {
 
   const handleSearchSubmit = async (query) => {
     const newUserMessage = { type: 'user', text: query };
+    let messagesForApi;
 
+    // Construct messagesForApi based on current state and new message
     if (uiMode !== 'chat') {
       setUiMode('chat'); // Switch to chat mode on the first query
-      setChatMessages([newUserMessage]); // Start new chat with user message
+      messagesForApi = [newUserMessage];
     } else {
-      // If already in chat mode, append new user message
-      setChatMessages(prevMessages => [...prevMessages, newUserMessage]);
+      // Important: Use the current chatMessages state to build the new array for the API
+      // setChatMessages is async, so chatMessages variable won't be updated yet in this scope
+      messagesForApi = [...chatMessages, newUserMessage];
     }
 
+    // Update the state with the new messages array that includes the user's new message
+    setChatMessages(messagesForApi);
+
     try {
+      // Now use 'messagesForApi' in the fetch call
       const response = await fetch('/api/chat/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: query }),
+        body: JSON.stringify({ messages: messagesForApi }), // MODIFIED LINE
       });
 
       if (!response.ok) {
@@ -40,11 +47,13 @@ function MainContent() {
       const data = await response.json();
 
       const aiMessage = { type: 'ai', text: data.reply || "No response from AI." };
+      // Append AI message to the existing messages (which now include the last user message)
       setChatMessages(prevMessages => [...prevMessages, aiMessage]);
 
     } catch (error) {
       console.error('Error querying backend:', error);
       const errorMessage = { type: 'ai', text: error.message || "Error: Could not connect to the AI." };
+      // Append error message to the existing messages
       setChatMessages(prevMessages => [...prevMessages, errorMessage]);
     }
   };
