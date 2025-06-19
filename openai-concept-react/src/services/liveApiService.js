@@ -1,6 +1,6 @@
 // openai-concept-react/src/services/liveApiService.js
 
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/genai';
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from '@google/genai';
 // Modality might be needed later for response_modalities, if not just text.
 // import { Modality } from '@google/genai';
 
@@ -9,7 +9,7 @@ const LiveApiService = {
   chatSession: null,
 
   // --- Configuration ---
-  MODEL_NAME: "gemini-1.5-flash-latest", // Or the specific live model
+  MODEL_NAME: "gemini-2.5-flash-preview-native-audio-dialog",
   // API_KEY will be the ephemeral token, fetched dynamically
 
   // --- Callbacks ---
@@ -56,7 +56,7 @@ const LiveApiService = {
       this.onStateChangeCallback('initializing_gemini');
       // Initialize with the ephemeral token.
       // The SDK expects the token itself as the API key for this client instance.
-      this.googleAI = new GoogleGenerativeAI(ephemeralToken);
+      this.googleAI = new GoogleGenAI(ephemeralToken);
 
       // Basic generation config (can be expanded or might be set by token constraints)
       // const generationConfig = {
