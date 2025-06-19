@@ -135,3 +135,39 @@ body {
     fill: var(--muted-text-color);
     cursor: pointer;
 }
+
+/* ChatView Styles */
+.chat-view {
+  width: 100%;
+  max-width: 700px; /* Same as search-bar for consistency */
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--text-color); /* Ensure text is visible */
+}
+
+.chat-message {
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+  word-wrap: break-word; /* Prevent long words from overflowing */
+}
+
+.chat-message.user {
+  background-color: var(--accent-color); /* Using accent color for user messages */
+  color: var(--text-color);
+  align-self: flex-end;
+  border-bottom-right-radius: 5px; /* Common chat bubble style */
+}
+
+.chat-message.ai {
+  background-color: #2d2d30; /* A slightly different dark shade for AI */
+  color: var(--text-color);
+  align-self: flex-start;
+  border-bottom-left-radius: 5px; /* Common chat bubble style */
+}
+
+.chat-message p {
+  margin: 0;
+}
