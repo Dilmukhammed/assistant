@@ -39,5 +39,74 @@
 
 .mic-icon.recording {
   background-color: red;
+  background-color: red;
   border-radius: 50%;
+  /* Ensure padding/sizing still works with background for .mic-icon.recording */
+  /* SVGs inside will be handled by the general icon SVG styling */
+}
+
+/* Styles for the SearchBar component */
+.search-bar-container {
+  width: 100%; /* Or a specific max-width, e.g., 600px */
+  margin: 0 auto; /* For centering if a max-width is set */
+  padding: 10px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0; /* Example background */
+  border: 1px solid #ccc;
+  border-radius: 25px; /* Rounded corners for the bar */
+  padding: 5px; /* Padding inside the search bar */
+  width: 100%; /* Make search bar take full width of its container */
+}
+
+.search-bar input[type="text"] {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 10px; /* Padding for the text input */
+  background-color: transparent; /* Make input background transparent */
+  font-size: 1em;
+}
+
+.search-bar .search-icon,
+.search-bar .mic-icon,
+.search-bar .send-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px; /* Spacing around icons */
+}
+
+.search-bar .mic-icon,
+.search-bar .send-icon {
+  cursor: pointer;
+}
+
+.search-bar .mic-icon svg,
+.search-bar .send-icon svg,
+.search-bar .search-icon svg { /* Include search-icon SVG for consistent sizing */
+  width: 20px;
+  height: 20px;
+  fill: #333; /* Dark grey color for icons */
+}
+
+/* Specific styling for the new send icon, if needed */
+.search-bar .send-icon {
+  /* margin-left: 4px; /* Example: if more space is needed */
+}
+
+
+.search-bar-container .status-message {
+  text-align: left; /* Align status messages to the left */
+  margin-top: 8px; /* Space above status message */
+  padding-left: 15px; /* Align with search bar text approximately */
+  font-size: 0.9em;
+  min-height: 1.2em; /* Reserve space to prevent layout shifts */
+}
+
+.search-bar-container .status-message p {
+  margin: 0;
 }

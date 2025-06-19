@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ReactComponent as SearchIcon } from '../assets/search-icon.svg';
-import { ReactComponent as MicIcon } from '../assets/mic-icon.svg';
+// import { ReactComponent as MicIcon } from '../assets/mic-icon.svg'; // Old icon
+import { ReactComponent as NewMicIcon } from '../assets/new-mic-icon.svg'; // New mic icon
+import { ReactComponent as PaperPlaneIcon } from '../assets/paper-plane-icon.svg'; // Send icon
 
 function SearchBar(props) { // Props will now include handleSearchSubmit
   const [inputValue, setInputValue] = useState('');
@@ -120,7 +122,10 @@ function SearchBar(props) { // Props will now include handleSearchSubmit
           disabled={processingStatus === 'sending'} // Disable input while sending
         />
         <div className={`mic-icon ${isRecording ? 'recording' : ''}`} onClick={handleMicClick}>
-          <MicIcon />
+          <NewMicIcon />
+        </div>
+        <div className="send-icon" onClick={handleSubmit}>
+          <PaperPlaneIcon />
         </div>
       </div>
       <div className="status-message">
