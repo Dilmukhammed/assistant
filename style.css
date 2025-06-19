@@ -1,0 +1,137 @@
+:root {
+    --bg-color: #0D0D0F;
+    --text-color: #EAEAEA;
+    --muted-text-color: #a4a4a4;
+    --border-color: #333333;
+    --accent-color: #4A4A5E;
+}
+
+body {
+    /*
+      Обновленный, более заметный градиент.
+      Начальный цвет стал светлее, а конечный - более насыщенным фиолетовым.
+    */
+    background: linear-gradient(160deg, #292A2F 0%, #1A1A1D 50%, #1F1C33 100%);
+    color: var(--text-color);
+    font-family: 'Manrope', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-icon {
+    cursor: pointer;
+}
+
+.nav-icon svg path {
+    fill: var(--muted-text-color);
+}
+
+.nav-icons-right {
+    display: flex;
+    gap: 16px;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-text {
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin: 0;
+}
+
+.filter-pills {
+    display: flex;
+    gap: 12px;
+}
+
+.pill {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--muted-text-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pill:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+.search-bar {
+    width: 700px;
+    max-width: 90vw;
+    display: flex;
+    align-items: center;
+    background-color: #161618;
+    border-radius: 30px;
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+.search-bar:focus-within {
+    border-color: var(--accent-color);
+}
+
+.search-bar input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    font-size: 16px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.search-bar input::placeholder {
+    color: var(--muted-text-color);
+}
+
+.mic-icon svg {
+    fill: var(--muted-text-color);
+    cursor: pointer;
+}
