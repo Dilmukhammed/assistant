@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import React, { useState } from 'react';
 import Logo from './Logo';
 import FilterPills from './FilterPills';
 import SearchBar from './SearchBar';

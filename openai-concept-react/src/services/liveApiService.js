@@ -36,6 +36,7 @@ const LiveApiService = {
     this.onStateChangeCallback('fetching_token');
     try {
       const response = await fetch('/api/get_live_api_token/'); // Fetch from our backend
+      console.log(response)
       if (!response.ok) {
         let errorMsg = `Failed to fetch ephemeral token: ${response.status}`;
         try {
@@ -56,7 +57,7 @@ const LiveApiService = {
       this.onStateChangeCallback('initializing_gemini');
       // Initialize with the ephemeral token.
       // The SDK expects the token itself as the API key for this client instance.
-      this.googleAI = new GoogleGenAI(ephemeralToken);
+      this.googleAI = new GoogleGenAI({ apiKey: ephemeralToken });
 
       // Basic generation config (can be expanded or might be set by token constraints)
       // const generationConfig = {
@@ -74,9 +75,13 @@ const LiveApiService = {
       const liveConnectConfig = {
          // Using string values for modalities as per common JS SDK patterns.
          // If the SDK provides an enum like Modality.TEXT, that would be preferred.
-         responseModalities: ['TEXT', 'AUDIO'],
+         responseModalities: ['AUDIO'],
          // sessionResumption: {}, // Optional: for session resumption capabilities
       };
+      console.log("[LiveApiService] Attempting to connect with:");
+      console.log("  - Ephemeral Token:", ephemeralToken);
+      console.log("  - Model Name:", this.MODEL_NAME);
+      console.log("  - Live Connect Config:", liveConnectConfig);
 
       this.chatSession = await this.googleAI.live.connect({
         model: this.MODEL_NAME,
